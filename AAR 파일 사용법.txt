@@ -1,0 +1,41 @@
+링크
+https://woochan-dev.tistory.com/7
+
+안드로이드 라이브러리에는 jar, aar 등 여러가지 형식이 있지만
+본 설명에는 aar파일을 다룹니다.
+(aar파일은 jar 파일과 레이아웃 등을 포함한 라이브러리 파일입니다.)
+
+1. aar파일을 받아서 압축을 해제합니다.
+
+2. 안드로이드 스튜디오의 Directory 형식을 Android 에서 Project로 바꾸어 줍니다
+
+3. aar 파일을 복사 합니다.
+
+4. 디렉토리 경로에서 
+'어플리케이션 명' -> app -> libs 로 들어가
+libs에 aar 파일을 붙여넣기 해줍니다.
+
+5. 안드로이드 스튜디오의 Directory 형식을 Project에서 Android로 바꾸어 줍니다.
+
+6. Gradle Scripts를 확대 하여 bulid.gradle(Module: app)파일을 열어줍니다.
+
+7. 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+라는 코드를 추가 해줍니다.
+
+8. dependencies 에서
+implementation name: '라이브러리 파일 명', ext: 'aar'
+이라는 코드를 한줄 추가해 줍니다.
+
+ex ) 라이브러리 파일 명이 culturalevents-release.aar 인 경우 ->
+implementation name: 'culturalevents-release', ext: 'aar'
+
+9. Build 에서 Clean Project 를 한뒤 Rebuild Project를 해줍니다.
+
+10. 라이브러리에 포함된 뷰를 xml 파일에 작성한 뒤
+java 파일에서 findViewById로 뷰를 선언한뒤
+setOpenApiKey 메소드로 키를 지정해주면 됩니다.
