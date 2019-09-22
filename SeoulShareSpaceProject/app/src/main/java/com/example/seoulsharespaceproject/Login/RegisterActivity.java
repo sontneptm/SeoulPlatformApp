@@ -39,7 +39,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private FirebaseAuth mAuth = FirebaseAuth.getInstance(); // null 에러 안나게 getInstance()해줌.
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseUser user = mAuth.getCurrentUser();
-    private FirebasePostUser newUser; //유저 정보를 가지고있는 FirebasePostUser클래스로 유저생성
     private Map<String, Object> userMap;
 
     private String email,name,nickname;
@@ -58,20 +57,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         nickNameText =(EditText) findViewById(R.id.nickNameText);
         genderGroup = (RadioGroup)findViewById(R.id.genderGroup);
 
-        genderGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-                if (i == R.id.women) {
-                    newUser = new FirebasePostUser(user.getUid(), emailText.getText().toString(), passwordText.getText().toString(),
-                            "여성", nameText.getText().toString(), nickNameText.getText().toString());
-                } else if (i == R.id.men) {
-                    newUser = new FirebasePostUser(user.getUid(), emailText.getText().toString(), passwordText.getText().toString(),
-                            "남성", nameText.getText().toString(), nickNameText.getText().toString());
-                }
-                userMap = newUser.toMap();
-            }
-        });
         emailText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -171,6 +156,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                }
            }
        });
+        genderGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                FirebasePostUser newUser=null; //유저 정보를 가지고있는 FirebasePostUser클래스로 유저생성
+                if (i == R.id.women) {
+                    newUser = new FirebasePostUser(user.getUid(), emailText.getText().toString(), passwordText.getText().toString(),
+                            "여성", nameText.getText().toString(), nickNameText.getText().toString());
+                } else if (i == R.id.men) {
+                    newUser = new FirebasePostUser(user.getUid(), emailText.getText().toString(), passwordText.getText().toString(),
+                            "남성", nameText.getText().toString(), nickNameText.getText().toString());
+                }
+                userMap = newUser.toMap();
+            }
+        });
        findViewById(R.id.registerButton).setOnClickListener(this);
     }
 
@@ -231,6 +230,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         if (task.isSuccessful()) {
                             if (user != null) {
                                 //FirebaseStore db에 정보 넣기
+
                                 mStore.collection(FirebaseKey.user).document(user.getUid()).set(userMap, SetOptions.merge()); //데이터 더 들어왔을때 덮어쓰기
                                 finish();
                             }

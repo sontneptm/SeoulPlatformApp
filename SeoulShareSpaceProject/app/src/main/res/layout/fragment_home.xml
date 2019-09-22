@@ -22,9 +22,10 @@
             android:id="@+id/homefrgment_Imageview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:gravity="bottom"
             android:adjustViewBounds="true"
-            android:src="@drawable/homebackgrond" />
+            android:src="@drawable/homebackgrond"
+            />
     </FrameLayout>
 
 </LinearLayout>
