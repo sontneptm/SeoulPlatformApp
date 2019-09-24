@@ -1,0 +1,4 @@
+manifest에 permission을 주어야 합니다.
+
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
